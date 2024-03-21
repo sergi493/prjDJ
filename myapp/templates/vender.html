@@ -1,0 +1,624 @@
+
+
+
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda</title>
+    
+   
+<script src="https://kit.fontawesome.com/8e16281abb.js" crossorigin="anonymous"></script>
+</head>
+<body>
+   
+    <div class="main-content">
+        <div class="products-section">
+            <h1>PUNTO VENTA</h1>
+            <input type="text" id="searchInput" placeholder="Buscar producto...">
+            
+    
+
+
+            <table id="productTable">
+
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Código</th>
+                        <th>Cantidad</th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    {% for producto in productos %}
+                    <tr>
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.codigo }}</td>
+                        <td>{{ producto.cantidad }}
+                           
+                        </td>
+                        <td>{{ producto.descripcion }}</td>
+                        <td>{{ producto.precio }}
+                            
+                            <td><button class="add-to-cart-btn">Añadir a la cesta</button></td>
+                        </td>
+                        
+
+                    </tr>
+                    
+                    {% endfor %}
+
+
+                    
+                </form>
+                </tbody>
+
+
+              <!-- <thead>
+                    <tr>
+                        
+                       <th>Producto</th>
+                       <th>Codigo</th>
+                        <th>Imagen</th>
+                        
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        
+                        <td>Producto 1 </td>
+                        <td> CH 3892</td>
+                        <td>.img1</td>
+                       
+                        <td>9</td>
+                        <td>$10.00</td>
+                        <td><button class="add-to-cart-btn">Añadir a la cesta</button></td>
+                    </tr>
+                    <tr>
+                       
+                        <td>Producto cacaaaa  </td>
+                        <td>CH 4892</td>
+                         <td>.img2</td>
+                       
+                        <td>10</td>
+                        <td>$10.00</td>
+                        <td><button class="add-to-cart-btn">Añadir a la cesta</button></td>
+                    </tr>
+                    <tr>
+                       
+                        <td>Producto Personalizable  </td>
+                        <td>PER123</td>
+                         <td>.img2</td>
+                       
+                        <td>INFINITO</td>
+                        <td>€</td>
+                        <td><button class="add-to-cart-btn">Añadir a la cesta</button></td>
+                    </tr>
+                    <!-- Agrega más productos aquí -->
+                </tbody> 
+            </table>
+        </div>
+        <div class="cart-section">
+            <h2>Cesta </h2>
+            <div class="cesta">
+                    <p>N..Ticket/N.Factura: <b>203</b></p>
+                    <ul id="cart"></ul>
+                    
+                    <div class="cart-options">
+                        <p>Total: <span id="total"></span></p>
+                    <div class="ef">
+                        <label>Efectiu: </label>
+                        <input type="number" id="Efectivo" placeholder="50€">
+                    </div>
+                    <label for="checkbox">Targeta</label>
+                    <input type="checkbox" id="checkbox" name="checkbox">
+                    <script>
+                        // Función para manejar el cambio en el checkbox
+                        document.getElementById('checkbox').addEventListener('change', function() {
+                            var efDiv = document.querySelector('.ef');
+                            var cambioParagraph = document.querySelector('#cambio').parentNode; // Obtener el párrafo que contiene el texto "CAMBIO"
+                    
+                            // Si el checkbox está marcado, ocultar el div "ef" y el párrafo del cambio
+                            if (this.checked) {
+                                efDiv.style.display = 'none';
+                                cambioParagraph.style.display = 'none';
+                            } else { // Si no está marcado, mostrar el div "ef" y el párrafo del cambio
+                                efDiv.style.display = 'block';
+                                cambioParagraph.style.display = 'block';
+                            }
+                        });
+                    </script>
+                    
+                    
+                     <p>CAMBIO: <span id="cambio"></span></p>
+                     
+                     <script>
+                        // Función para calcular el cambio
+                        function calcularCambio() {
+                            // Obtenemos el valor total y el efectivo introducido
+                           // Obtener el contenido del elemento 'total'
+var totalText = document.getElementById('total').textContent;
+
+// Eliminar el símbolo de dólar del principio y luego convertir la cadena a un número de punto flotante
+var total = parseFloat(totalText.slice(1));
+                            var efectivo = parseFloat(document.getElementById('Efectivo').value);
+                            
+                            // Mensajes de depuración
+                            console.log("Total:", total);
+                            console.log("Efectivo:", efectivo);
+                            
+                            // Verificamos si los valores son números válidos
+                            if (isNaN(total) || isNaN(efectivo)) {
+                                console.log("Al menos uno de los valores no es un número válido.");
+                                document.getElementById('cambio').textContent = '';
+                                return;
+                            }
+                            
+                            // Calculamos el cambio
+                            var cambio = efectivo - total;
+                            
+                            // Mostramos el resultado en el span con el id "cambio"
+                            document.getElementById('cambio').textContent = cambio.toFixed(2);
+                        }
+                        
+                        // Escuchamos el evento input del campo de efectivo
+                        document.getElementById('Efectivo').addEventListener('input', calcularCambio);
+                    </script>
+                    
+                    
+                    
+                    </div>
+            </div>
+        <hr>
+        
+       <label for="checkbox">Factura</label>
+  <input type="checkbox" id="checkbox" name="checkbox">
+  
+  
+    <button id="mostrarPopup">Mostrar Popup</button>
+
+<!-- Overlay para el fondo gris -->
+<div class="overlay" id="overlay">
+    <!-- Popup con inputs -->
+    <div class="popup">
+        <h1>CLIENTES</h1>
+       <!-- <input type="text" id="searchpeople" placeholder="Joan Martí">  <button>IMPORTAR</button>  -->
+        <p>dividir la popup en 2. izq -- crear; drch -- table + search input client amb boto per importar</p> 
+        <br><br>
+        <label for="username">Nombre: </label>             
+    <input type="text" id="Name" placeholder="Jonh">
+    <BR><br>
+     <label for="username">NIF/DNI</label>
+    <input type="text" id="DNI" placeholder="000 000 00A">
+    <br><br>
+     <label for="username">Direcció</label>
+    <input type="text" id="DNI" placeholder="Carrer del Pi, 24, Mora d'Ebre, 43452">
+    <br><br>
+     <label for="username">E-mail</label>
+    <input type="text" id="DNI" placeholder="example@gmail.com">
+    <br><br>
+     <label for="username">Num tel</label>
+    <input type="text" id="DNI" placeholder=" + 34 629 74 27 68">
+    <br><br>
+    
+    
+        <button onclick="guardarInformacion()">Guardar</button>
+        <button onclick="">Salir</button>
+    </div>
+</div>
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        var filter, table, tr, td, i, txtValue;
+        filter = this.value.toUpperCase();
+        table = document.getElementById('productTable');
+        tr = table.getElementsByTagName('tr');
+    
+        var visibleProducts = 0;
+        var productName = '';
+    
+        for (i = 0; i < tr.length; i++) {
+            var found = false;
+            // Iterar sobre ambas columnas
+            for (var j = 0; j < 2; j++) { // Modificado para iterar sobre las dos primeras columnas
+                td = tr[i].getElementsByTagName('td')[j];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = '';
+                        visibleProducts++;
+                        productName = txtValue;
+                        found = true;
+                        break; // Salir del bucle interior si se encuentra el texto en alguna columna
+                    }
+                }
+            }
+            if (!found) {
+                tr[i].style.display = 'none';
+            }
+        }
+    
+        if (visibleProducts === 1) {
+            document.getElementById('searchInput').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    var visibleProduct = table.querySelector('tr[style=""]');
+                    var visibleProductName = visibleProduct.querySelector('td:nth-child(2)').innerText; // Se mantiene para la segunda columna
+                    if (productName === visibleProductName) {
+                        addToCart(productName);
+                    }
+                }
+            });
+        } else {
+            // Si hay más de un producto visible o ninguno, eliminamos el event listener
+            document.getElementById('searchInput').removeEventListener('keypress', function() {});
+        }
+    });
+    
+    
+    
+    function updateTotal() {
+        var cart = document.getElementById('cart');
+        var cartItems = cart.querySelectorAll('li');
+        var totalPrice = 0;
+
+        cartItems.forEach(function(cartItem) {
+            var quantity = parseInt(cartItem.querySelector('.quantity').innerText);
+            var price = parseFloat(cartItem.querySelector('.price').innerText);
+            var itemTotalPrice = price;
+            totalPrice += itemTotalPrice;
+        });
+
+        document.getElementById('total').innerText = '$' + totalPrice.toFixed(2);
+    }
+    
+    
+    
+    function updateCartQuantity(action, productName) {
+        var cart = document.getElementById('cart');
+        var cartItem = cart.querySelector(`li[data-product="${productName}"]`);
+        var quantityElement = cartItem.querySelector('.quantity');
+        var quantity = parseInt(quantityElement.innerText);
+        var priceElement = cartItem.querySelector('.price');
+        var price = parseFloat(priceElement.innerText);
+        var totalElement = document.getElementById('total');
+
+        if (action === 'increase') {
+            quantity++;
+            price += price / (quantity - 1); // Aumentar el precio por unidad
+        } else if (action === 'decrease') {
+            quantity--;
+            if (quantity === 0) {
+                cartItem.remove(); // Si la cantidad llega a cero, eliminar el elemento del carrito
+            } else {
+                price -= price / (quantity + 1); // Disminuir el precio por unidad
+            }
+        }
+
+        if (quantity > 0) {
+            quantityElement.innerText = quantity;
+            priceElement.innerText = price.toFixed(2); // Redondear el precio a dos decimales
+            updateTotal();
+        }
+    }
+    
+    
+    function addToCart(productName, productPrice) {
+        var cart = document.getElementById('cart');
+        var existingCartItem = cart.querySelector(`li[data-product="${productName}"]`);
+        if (existingCartItem) {
+            /*var quantityElement = existingCartItem.querySelector('.quantity');
+            var quantity = parseInt(quantityElement.innerText);
+            quantityElement.innerText = quantity + 1;
+            */
+            updateCartQuantity('increase',productName)
+        } else {
+            var li = document.createElement('li');
+            li.setAttribute('data-product', productName);
+            li.innerHTML = `${productName} - <span class="price">${productPrice}</span> <button class="decrease-btn">-</button> <span class="quantity">1</span> <button class="increase-btn">+</button> <button class="remove-btn">Eliminar</button>`;
+            cart.appendChild(li);
+        }
+        updateTotal();
+    }
+    
+    // Función para actualizar la cantidad de unidades en la cesta
+    /*function updateCartQuantity(action, productName) {
+        var cart = document.getElementById('cart');
+        var cartItem = cart.querySelector(`li[data-product="${productName}"]`);
+        var quantityElement = cartItem.querySelector('.quantity');
+        var quantity = parseInt(quantityElement.innerText);
+    
+        if (action === 'increase') {
+            quantity++;
+        } else if (action === 'decrease') {
+            quantity--;
+        }
+    
+        quantityElement.innerText = quantity;
+       
+    }*/
+    // Función para eliminar un producto de la cesta
+    function removeFromCart(productName) {
+        var cart = document.getElementById('cart');
+        var cartItem = cart.querySelector(`li[data-product="${productName}"]`);
+        cartItem.remove();
+        updateTotal();
+    }
+    
+    // Event listeners para los botones en la cesta
+    document.getElementById('cart').addEventListener('click', function(event) {
+        if (event.target.classList.contains('increase-btn')) {
+            var productName = event.target.parentNode.getAttribute('data-product');
+            updateCartQuantity('increase', productName);
+        } else if (event.target.classList.contains('decrease-btn')) {
+            var productName = event.target.parentNode.getAttribute('data-product');
+            updateCartQuantity('decrease', productName);
+        } else if (event.target.classList.contains('remove-btn')) {
+            var productName = event.target.parentNode.getAttribute('data-product');
+            removeFromCart(productName);
+        }
+    });
+    
+    // Event listener para los botones "Añadir a la cesta" en la tabla de productos
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            var productName = this.parentNode.parentNode.children[0].innerText;
+            var productPrice = parseFloat(this.parentNode.parentNode.children[4].innerText); // Convertir el precio a un número flotante
+            addToCart(productName, productPrice);
+        });
+    });
+    
+    
+    
+
+
+
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const filterSelect = document.getElementById("filterSelect");
+        const codigoTable = document.getElementById("codigoTable");
+        const productoTable = document.getElementById("productoTable");
+    
+        filterSelect.addEventListener("change", function() {
+            if (filterSelect.value === "codigo") {
+                codigoTable.classList.remove("hidden");
+                productoTable.classList.add("hidden");
+            } else {
+                codigoTable.classList.add("hidden");
+                productoTable.classList.remove("hidden");
+            }
+        });
+    });
+    
+    
+</script>
+<script>
+    // Función para mostrar el popup
+    document.getElementById("mostrarPopup").addEventListener("click", function() {
+        document.getElementById("overlay").style.display = "flex"; // Mostrar el overlay
+    });
+
+    // Función para guardar la información ingresada en los inputs
+    function guardarInformacion() {
+        var info1 = document.getElementById("input1").value;
+        var info2 = document.getElementById("input2").value;
+        var info3 = document.getElementById("input3").value;
+        
+        // Aquí podrías hacer algo con la información, por ejemplo, enviarla a un servidor
+        
+        // Cerrar el popup
+        document.getElementById("overlay").style.display = "none";
+    }
+</script>
+
+
+
+    
+    
+   
+    
+    
+  
+  
+  
+  <br><br>
+    <button onclick="genFactura()">FACTURAR (Imprimir + Guardar + Vaciar Cesta)</button>
+    <button onclick="genTicket()"> TICKET DE VENTA (Imprimir + Guardar + Vaciar Cesta)</button>
+    <!--<button onclick="DownFactura()">Descargar Factura</button>-->
+    <!--<button onclick="DownTicket()">Descargar Ticket </button>-->
+    <br>
+    <br>
+     <button onclick="DownTicket()">Vaciar cesta </button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
+    <script>
+    document.getElementById('searchInput').addEventListener('focus', function() {
+  // Seleccionar todo el texto dentro del input
+  this.select();
+});
+        function genFactura(){
+            var docDefinition = {
+                pageSize: 'A4', // Definir tamaño de página A4
+                content: [
+                    { text: 'Empresa XYZ', style: 'header' },
+                    { text: 'Nº de Factura: 12345', style: 'subheader' },
+                    { text: 'Información del cliente:', style: 'subheader' },
+                   // { text: document.getElementById('esc').value },
+                    { text: 'Detalle de la factura:', style: 'subheader' },
+                    { text: 'Producto 1 - Precio: $10' },
+                    { text: 'Producto 2 - Precio: $15' },
+                    { text: 'Producto 3 - Precio: $20' },
+                    { text: 'Producto 4 - Precio: $25' },
+                    { text: 'Producto 5 - Precio: $30' },
+                    { text: 'Producto 6 - Precio: $35' },
+                    { text: 'Producto 7 - Precio: $40' },
+                    { text: 'Producto 8 - Precio: $45' },
+                    { text: 'Producto 9 - Precio: $50' },
+                    { text: 'Producto 10 - Precio: $55' }
+                ],
+                styles: {
+                    header: { fontSize: 18, bold: true },
+                    subheader: { fontSize: 14, bold: true, margin: [0, 15, 0, 0] }
+                }
+            };
+
+            pdfMake.createPdf(docDefinition).print();
+        
+        }
+        
+        
+        
+        function getFormattedDateTime() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    var hh = String(today.getHours()).padStart(2, '0');
+    var min = String(today.getMinutes()).padStart(2, '0');
+    var ss = String(today.getSeconds()).padStart(2, '0');
+
+    return dd + '/' + mm + '/' + yyyy + ' -- ' + hh + 'h ' + min + 'min ' + ss+"s";
+}
+
+
+
+        
+        function DownFactura(){
+            var dateTime = getFormattedDateTime();
+    var fileName = "Factura " + document.getElementById('Name').value + " - "  +  getFormattedDateTime()   + ".pdf";
+
+    var docDefinition = {
+        pageSize: 'A4',
+        content: [
+            { text: 'Empresa XYZ', style: 'header' },
+            { text: 'Nº de Factura: 12345', style: 'subheader' },
+            { text: 'Información del cliente:', style: 'subheader' },
+            //{ text: document.getElementById('esc').value },
+            { text: 'Detalle de la factura:', style: 'subheader' },
+            { text: 'Producto 1 - Precio: $10' },
+            { text: 'Producto 2 - Precio: $15' },
+            { text: 'Producto 3 - Precio: $20' },
+            { text: 'Producto 4 - Precio: $25' },
+            { text: 'Producto 5 - Precio: $30' },
+            { text: 'Producto 6 - Precio: $35' },
+            { text: 'Producto 7 - Precio: $40' },
+            { text: 'Producto 8 - Precio: $45' },
+            { text: 'Producto 9 - Precio: $50' },
+            { text: 'Producto 10 - Precio: $55' }
+        ],
+        styles: {
+            header: { fontSize: 18, bold: true },
+            subheader: { fontSize: 14, bold: true, margin: [0, 15, 0, 0] }
+        }
+    };
+
+    pdfMake.createPdf(docDefinition).download(fileName);
+}
+
+
+
+        
+        
+
+        function DownTicket(){
+            // Obtener productos del ticket
+            var productos = [
+                { nombre: "Producto 1", precio: "$10" },
+                { nombre: "Producto 2", precio: "$15" },
+                { nombre: "Producto 3", precio: "$20" },
+                { nombre: "Producto 4", precio: "$25" },
+                { nombre: "Producto 5", precio: "$30" },
+                { nombre: "Producto 6", precio: "$35" },
+                { nombre: "Producto 7", precio: "$40" },
+                { nombre: "Producto 8", precio: "$45" },
+                { nombre: "Producto 9", precio: "$50" },
+                { nombre: "Producto 10", precio: "$55" }
+            ];
+
+            // Calcular altura de la página del ticket
+            var height = 100 + (productos.length * 20); // 100 para el contenido fijo, 20 para cada línea de producto
+
+            var docDefinition = {
+                pageSize: { width: 5 * 72, height: height }, // Definir tamaño de página en función de la cantidad de productos
+                content: [
+                    { text: 'Ticket de Venta', style: 'header' },
+                ],
+                styles: {
+                    header: { fontSize: 18, bold: true }
+                }
+            };
+
+            // Agregar cada producto al contenido del ticket
+            productos.forEach(function(producto) {
+                docDefinition.content.push({ text: producto.nombre + " - Precio: " + producto.precio });
+            });
+
+            
+            pdfMake.createPdf(docDefinition).download("ticket_venta.pdf"); // Descargar ticket de venta como PDF
+        }
+        function genTicket(){
+            // Obtener productos del ticket
+            var productos = [
+                { nombre: "Producto 1", precio: "$10" },
+                { nombre: "Producto 2", precio: "$15" },
+                { nombre: "Producto 3", precio: "$20" },
+                { nombre: "Producto 4", precio: "$25" },
+                { nombre: "Producto 5", precio: "$30" },
+                { nombre: "Producto 6", precio: "$35" },
+                { nombre: "Producto 7", precio: "$40" },
+                { nombre: "Producto 8", precio: "$45" },
+                { nombre: "Producto 9", precio: "$50" },
+                { nombre: "Producto 10", precio: "$55" }
+            ];
+
+            // Calcular altura de la página del ticket
+            var height = 100 + (productos.length * 20); // 100 para el contenido fijo, 20 para cada línea de producto
+
+            var docDefinition = {
+                pageSize: { width: 5 * 72, height: height }, // Definir tamaño de página en función de la cantidad de productos
+                content: [
+                    { text: 'Ticket de Venta', style: 'header' },
+                ],
+                styles: {
+                    header: { fontSize: 18, bold: true }
+                }
+            };
+
+            // Agregar cada producto al contenido del ticket
+            productos.forEach(function(producto) {
+                docDefinition.content.push({ text: producto.nombre + " - Precio: " + producto.precio });
+            });
+
+            pdfMake.createPdf(docDefinition).print();
+            
+        }
+    </script>
+    
+</body>
+</html>
+{% endblock %}

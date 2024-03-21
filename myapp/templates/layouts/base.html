@@ -1,0 +1,63 @@
+{% load static %}
+
+
+<html>
+<head>
+
+    <link rel="stylesheet" href="{% static "/styles/main.css" %}">
+    <script src="{% static "/script.js" %}"></script>
+</head>
+    <body>
+
+        <nav>
+            <ul>
+               <!-- <a href="/index/"><button><li><i class="fa-solid fa-warehouse"></i> Almacén</li></button></a>
+                <a href="/vender/" class="active"><button><li><i class="fa-solid fa-shop"></i> Punto venta</li></button></a>
+                <a href="/facturas/"><button><li><i class="fa-solid fa-book"></i> Facturas</li></button></a>
+                <a href="/tickets/"><button><li><i class="fa-solid fa-receipt"></i> Tickets</li></button></a>
+               
+                <a href="/stock/"><button><li><i class=""></i>STOCK</li></button></a>
+                <a href=""><button><li><i class="fa-solid fa-calendar-day"></i>Hoy</li></button></a>
+                <a href=""><button><li><i class="fa-solid fa-cart-shopping"></i> Estado pedidos</li></button></a>
+                <a href=""><button><li><i class="fa-solid fa-chart-pie"></i> Estadisticas</li></button></a>
+            -->
+
+            <a href="/index/" class="tooltip-btn" data-tooltip="Ir al Almacén"><button><li><i class="fa-solid fa-warehouse"></i> Almacén</li></button></a>
+            <a href="/vender/" class="tooltip-btn active" data-tooltip="Ir al Punto de Venta"><button><li><i class="fa-solid fa-shop"></i> Punto venta</li></button></a>
+            <a href="/facturas/" class="tooltip-btn" data-tooltip="Ir a Facturas"><button><li><i class="fa-solid fa-book"></i> Facturas</li></button></a>
+            <a href="/tickets/" class="tooltip-btn" data-tooltip="Ir a Tickets"><button><li><i class="fa-solid fa-receipt"></i> Tickets</li></button></a>
+            <a href="/stock/" class="tooltip-btn" data-tooltip="Ir al Stock"><button><li><i class=""></i>STOCK</li></button></a>
+            <a href="" class="tooltip-btn" data-tooltip="Hoy"><button><li><i class="fa-solid fa-calendar-day"></i>Hoy</li></button></a>
+            <a href="" class="tooltip-btn" data-tooltip="Ver Estado de Pedidos"><button><li><i class="fa-solid fa-cart-shopping"></i> Estado pedidos</li></button></a>
+            <a href="" class="tooltip-btn" data-tooltip="Ver Estadísticas"><button><li><i class="fa-solid fa-chart-pie"></i> Estadisticas</li></button></a>
+            
+                            
+            <script>
+                const tooltipBtns = document.querySelectorAll('.tooltip-btn');
+            
+                tooltipBtns.forEach(btn => {
+                  btn.addEventListener('mouseover', function() {
+                    const tooltipText = this.getAttribute('data-tooltip');
+                    const tooltip = document.createElement('div');
+                    tooltip.classList.add('tooltip');
+                    tooltip.innerText = tooltipText;
+                    btn.appendChild(tooltip);
+                  });
+                
+                  btn.addEventListener('mouseout', function() {
+                    const tooltip = btn.querySelector('.tooltip');
+                    if (tooltip) {
+                      tooltip.parentNode.removeChild(tooltip);
+                    }
+                  });
+                });
+                
+            </script>
+            </ul>
+        </nav>
+        
+        {% block content %}
+        {% endblock %}
+    </body>
+
+</html>

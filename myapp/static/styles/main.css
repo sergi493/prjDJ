@@ -1,0 +1,177 @@
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #fffef4;
+}
+
+nav {
+    background-color: black;
+    color: #fff;
+    width: 200px;
+    height: 100vh;
+    float: left;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+   
+}
+
+    nav button {
+        width: 170px;
+        height:40px;
+        margin-top: 5px;
+        border-style: solid;
+        border-radius: 10px;
+        margin: 5px 10px 0 10px;
+        background-color: wheat;
+        text-align: center; /* Centra el texto dentro del botón */
+    }
+
+    nav ul li {
+        list-style: none; /* Quita los estilos de la lista */
+    }
+    .cart ul li{
+        list-style: none;
+    }
+    .tooltip-btn {
+        position: relative;
+      }
+      
+      .tooltip {
+        position: absolute;
+        background-color: rgba(164, 164, 164, 0.419);
+        color: #000000;
+        padding: 5px 5px 5px 10px;
+          margin:-35px 0 0px 205px;
+        border-radius: 5px;
+        font-size: 14px;
+        z-index:1000;
+          min-width:45px;
+         
+          justify-content: center;
+       /*display: none;*/
+      }
+      
+    nav ul li a {
+        color: black;
+        text-decoration: none;
+        
+    }
+
+.main-content {
+    padding: 20px;
+    overflow: hidden; /* Para forzar que contenga los elementos flotantes */
+    
+}
+
+.products-section {
+    float: left;
+    width: 48%;
+    margin-right: 2%;
+}
+
+.cart-section {
+    float: right;
+    width: 48%;
+}
+
+#searchInput {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    border-style: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.add-to-cart-btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #45a049;
+}
+
+
+
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparente */
+        display: none; /* Oculto por defecto */
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Estilo para el cuadro blanco */
+    .popup {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    
+    
+    
+    
+    
+    
+    .cesta{
+        border:2px solid black;
+        border-radius:15px;
+        padding: 5%;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+ /* Estilos CSS */
+.table-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-container table {
+    width: 48%; /* Ancho ajustable según tus necesidades */
+}
+
+/* Otros estilos que ya tenías */
+
