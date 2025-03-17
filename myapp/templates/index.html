@@ -23,10 +23,10 @@
 <body>
 
     <div class="main-content">
-        <h1>ALMACEN</h1>
+        <h1>RESERVES</h1><p> BOTO QUE PERMETI TANCAR CAIXA (a la pestaña "hoy"): Veure resum, total efectiu targeta verificar total i guardar info a base de datos? --> que es pugui veure  els dels altres dies i descarregar.////// que en funcio del que es ven a caixa, a la finestra de pedidos, que proposi els productes per afegirlos facilment///// A la pagina hoy??: treure la pagina signup -- fer que nomes es pugui crear comptes si estas connectat amb un compte, permet també cambiar la contrasenya. Afegir recordatori cuan passin 30 dies que el compte té la mateixa contrasenya + proposar contrasenya generada automaticament (basat amb els milisegons de qun s'ha apretat el boto de generar automaticament). Afegir un botor que permeti enviar preguntes a chat gpt amb una API. Al final, eliminar esta pagina(almacen-- index) y fer lo de vista protegida a la finestra stock.</p>
         <input type="text" id="searchInput" placeholder="Buscar producto...">
         <form method="post">
-        <table id="productTable">
+        <table id="productTable1">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -34,6 +34,7 @@
                     <th>Cantidad</th>
                     <th>Descripcion</th>
                     <th>Precio</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -47,10 +48,9 @@
                         
                         
                     </td>
-                    <td>{{ producto.descripcion }}</td>
-                    <td>{{ producto.precio }}
-                        <button>Editar</button>
-                    </td>
+                    <td>{{ producto.descripcion|truncatechars:25 }}</td>
+                    <td>{{ producto.precio }}</td>
+                    
                 </tr>
                 
                 {% endfor %}

@@ -1,0 +1,207 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+        *{
+            margin:0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height:100vh;
+            background: url("fon.jfif");
+            /*background: url("https://img.freepik.com/vector-premium/fondo-negocio-abstracto-naranja-negro_71775-804.jpg");*/
+            background-repeat: no-repeat;
+    background-size: cover;
+        }
+        
+        @property --a{
+            syntax: "<angle>";
+            inherits:false;
+            initial-value: 0deg;
+            
+        }
+        
+        
+        .box{
+            position: relative;
+            width: 400px;
+            min-height: 400px;
+             display: flex;
+            justify-content: center;
+            align-items: center;
+           /*background: repeating-conic-gradient(from var(--a),#FF0000 0%, #01dbc2 10%, transparent 10%, transparent 50%);
+            animation: animate 6s linear infinite;*/
+            border-radius:20px;
+        }
+        
+        @keyframes animate{
+            0%{
+                --a: 0deg
+            }
+            100%{
+                --a: 360deg
+            }
+        }
+        
+        .box::before{
+            content:"";
+            position: absolute;
+            width:100%;
+            height: 100%;
+            /*background: repeating-conic-gradient(from var(--a), #FF0000 0%, #01dbc2 10%, transparent 10%, transparent 50%);
+            animation: animate 6s linear infinite;
+            animation-delay: -1.5s ;*/
+            border-radius:20px;
+        
+        }
+        
+        .box::after{
+            content:" ";
+            position: absolute;
+            inset:1px;
+            border: 2px solid black;
+             background:rgba(154, 154, 154, 0.4);;
+            backdrop-filter:blur(5px);
+            border-radius:20px;
+        }
+        
+        
+        form{
+            position: relative;
+            z-index:1000;
+        }
+        
+        form h2{
+            color:white;
+            font-weight: 500;
+            margin-bottom:20px;
+            padding-top:60px;
+            width: 100%;
+            text-align:center;
+            letter-spacing:0.13em;
+            /*text-transform: uppercase;*/
+        }
+        
+        
+        .inputBx{
+            position:relative;
+            margin-bottom:40px;
+            /*margin-bottom:15px;*/
+            width: 240px;
+        }
+        
+        
+        .inputBx span{
+            position:absolute;
+            inset: -2px;
+            background: red;
+            z-index:1;
+            /*border: 2px solid black;*/
+            border-radius: 30px        ;
+            
+        }
+        
+        .inputBx span::before{
+            content:"";
+            position:absolute;
+            inset:-2px;
+            background: repeating-conic-gradient(from var(--a), #FF0000 0%, #000000 10%, #0234ff 20%, transparent 20%, transparent 50%);
+            animation: animate 6s linear infinite;
+            /*box-shadow: 0 0 0 2px black;*/
+            border-radius: 30px        ;
+        }
+        
+        .inputBx:nth-child(2) span::before{
+            animation-delay: -1.5s;
+        }
+        
+        .inputBx span::after{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:#292929;
+            border-radius: 30px        ;
+            border:2px black solid;
+            
+}
+        
+        .inputBx input{
+            position:relative;
+            z-index:100000;
+            outline:none;
+            border:none;
+            width:100%;
+            padding:8px 14px;
+            background:transparent;
+            color: wheat;
+            /*text-transform: uppercase;
+            */letter-spacing:0.1em;
+            
+}
+        
+         .inputBx input::placeholder{
+             color:wheat;
+             opacity:0.5;
+         }
+         
+         .inputBx input[type="submit"]{
+             background: #01dbc2;
+             cursor:pointer;
+             box-shadow: 0 0 0 2px #01dbc2 ;
+             width:140%;
+             margin-left: -50px;
+             text-align:center;
+             font-weight:500;
+             color: #292929;
+             filter:drop-shadow(0 0 10px #01dbc2);
+             border-radius: 30px;
+             -webkit-border-radius: 30px;
+             -moz-border-radius: 30px;
+             -ms-border-radius: 30px;
+             -o-border-radius: 30px;
+             -webkit-filter:drop-shadow(0 0 10px #01dbc2);
+}
+         
+         .inputBx p{
+            font-size: small;
+            color:black;
+         }
+         .inputBx a{
+            font-size: small;
+            color:#840f00;
+         }
+         .error-message {
+            color: rgb(77, 0, 0); /* Color rojo para el mensaje de error */
+            margin-bottom: 20px;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
+
+
+
+
+
+
+
+
+
+
+
+
+         
+
+         

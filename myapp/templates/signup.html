@@ -1,0 +1,31 @@
+
+
+{% extends "layouts/base1.html" %}
+
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tienda</title>
+        
+   
+        <script src="https://kit.fontawesome.com/8e16281abb.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="box">
+
+        {{error}}
+        <form  method="POST">
+            <h1>CREAR</h1>
+            {% csrf_token %}
+            {{form.as_p}}
+            <button>Singup</button>
+            <p><a href="#">Contrasenya oblidada</a> or <a href="/login/">Ja tens compte?</a></p>
+        </form>
+        </div>
+    </body>
+</html>
+{% endblock %}

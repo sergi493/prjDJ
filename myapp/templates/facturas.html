@@ -14,10 +14,256 @@
 </head>
 <body>
     
-<h1>FACTURAAAAS</h1>
+    <style>
+        .popup-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+          }
+          
+          .popup-content {
+            position: absolute;
+            top: 50%;
+            left: 53%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width:80%;
+          }
+          
+          .close-popup {
+            
+            padding: 5px 10px;
+            background-color: #ddd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left:20%;
+          }
+          
+          .close-popup:hover {
+            background-color: #ccc;
+          }
+        img{
+            max-height:10px;
+            height:auto;
+        }
+        .dreta{
+            padding-left:30%;
+        }
+        
+        
+       
+        </style>    
+<div class="main-content">
+    <div class="products-section">
+        <h1>FACTURAS</h1>
+        <!--
 <p>(es pot eliminar, descarregar, reembolsar, veure datos, enviar per mail?)</p>
 
+        <input type="text" id="searchInput" placeholder="Buscar producte...">-->
+    </div>
+    <div class="popup-container" id="popup">
+    
+    </div> <!-- Moví el cierre de este div al final -->
+    <form method="post">
+        <table id="productTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>DATA</th>
+                <th>Client</th>
+                <th>Tipus pagament</th>
+                <th>Total</th>
+                <th>VEURE</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for factura in facturas %}
+            <tr>
+                <td>{{ factura.id }}</td>
+                <td>{{ factura.date }}</td>
+                <td>{{ factura.persona_id }} </td>
+                <td>{{ factura.metodo_pago }}</td> <!-- A IMPLEMENTAR A MODELS, VIEWS...-->
+                <td>{{ factura.total }} €</td>
+              
+                <td><button type="button" class="popup-trigger" data-factura-id="{{ factura.id }}"><i
+                        class="fa-regular fa-pen-to-square"></i></button></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </form>
+</div>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const triggerButtons = document.querySelectorAll('.popup-trigger');
+        const popup = document.getElementById('popup');
 
+        triggerButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const facturaId = button.getAttribute('data-factura-id');
+                fetch(`/get_factura_data/${facturaId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const dateObj = new Date(data.date);
+                const formattedDate = `${dateObj.getDate()}-${dateObj.getMonth() + 1}-${dateObj.getFullYear()}`;    
+                const hours = String(dateObj.getUTCHours()).padStart(2, '0');
+                const minutes = String(dateObj.getUTCMinutes()).padStart(2, '0');
+                const seconds = String(dateObj.getUTCSeconds()).padStart(2, '0');
+              
+                        // Renderizar los datos del ticket en la ventana emergente
+                        let popupContent = `
+                            <div class="popup-content">
+                               
+                                <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+                                    <div id="ticket-number"><h2>Factura número: ${data.id}</h2>
+                                        <p>PROCEDENCIA: ${data.procedencia} <br> ID: ${data.taula_id_procedencia}
+                                        <div class="payment-container">
+                                            <label for="paymentMethod">Metode de Pagament:</label>
+                                            <div>
+                                                <select id="paymentMethod" name="paymentMethod">
+                                                    <option value="Tarjeta" ${data.metodo_pago === 'Targeta' ? 'selected' : ''}>Tarjeta</option>
+                                                    <option value="Efectivo" ${data.metodo_pago === 'Efectivo' ? 'selected' : ''}>Efectivo</option>
+                                                </select>
+                                            </div>
+                                            <p>${data.abono ? data.abono : ''}</p>
+                                            <p>ID CLIENT: ${data.persona_id}, ${data.persona_nombre} ${data.telefon} </p>
+                                            
+                                        </div></div>
+                                    <div style="text-align: left;">
+                                      <div id="date"><h4>Data: ${formattedDate}</h4></div>
+                                      <div id="time"><h4>Hora: ${hours}:${minutes}:${seconds}</h4></div>
+                                    </div>
+                                  </div>
+                                <hr>
+                                <ul>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>NOM</th>
+                                                <th>QUANT.</th>
+                                                <th>PREU</th>
+                                                <th>TOTAL</th>
+                                                <th>IMG</th>
+                                            </tr>
+                                        </thead> <tbody>`;
+
+                        // Agregar productos y cantidades a la ventana emergente
+                        data.productos.forEach(producto => {
+                            popupContent += `
+                            
+                                
+                                    <tr>
+                                    <td>${producto.producto_id}</td>
+                                    <td>${producto.nombre}</td>
+                                    <td>${producto.cantidad}</td>
+                                    <td>${producto.preu} €</td>
+                                    <td>${(producto.preu * producto.cantidad).toFixed(2)} €</td>
+
+                                    <td><img style="max-height:30px;" src="${producto.producto_imagen}"></td>
+                                    </tr>
+                                
+                            
+                            
+                            
+                            `;
+                        });
+                        popupContent += `   </tbody></table>
+                                            <p>Total: ${data.total} €</p>
+                                        </ul>
+                                        <div class="popup-buttons">
+                                            <div>
+                                                <button class="blue-button">DESCARGAR</button>
+                                                <button onclick="reembolsarFactura(${data.id})" class="red-button">REEMBOLSAR</button>
+                                                
+                                            
+                                            
+                                                <button class="green-button">Aplicar</button>
+                                                <button >Enviar per mail</button>
+                                                
+                                                
+                                                <button id="close-popup" class="close-popup">Cancelar</button>
+                                                
+                                          
+                                        </div>
+                                    </div>
+                                        
+                                        
+                                        `;
+                        popup.innerHTML = popupContent;
+                        popup.style.display = 'block';
+                        // Adjuntar event listener al botón de cerrar
+                        const closeButton = popup.querySelector('.close-popup');
+                        closeButton.addEventListener('click', function () {
+                            popup.style.display = 'none';
+                        });
+                    })
+                    .catch(error => console.error('Error al obtener datos delqqq ticket:', error));
+            });
+        });
+    });
+
+    /*document.addEventListener("click", function(event) {
+        var popupContent = document.querySelector(".popup-content");
+        var closeButton = document.querySelector(".close-popup");
+        //var notes = document.querySelector('.notes');
+        //var expandir = document.querySelector('.expandir');
+        // Verifica si el clic fue fuera del popup-content y dentro del documento
+        if (!popupContent.contains(event.target) && event.target !== closeButton) {
+            // Verificar si el clic no ocurrió dentro de .notes o .expandir
+            if (!notes.contains(event.target) && !expandir.contains(event.target)) {
+            closeButton.click();
+        }
+    }
+});*/
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+function reembolsarFactura(id){
+    var csrftoken = getCookie('csrftoken');
+
+      
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/reembolsar_factura/", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-CSRFToken', csrftoken);
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log("Respuesta del servidor:", xhr.responseText);
+                obtenirUltimClient();
+                
+            } else {
+                console.error("Error en la solicitud:", xhr.statusText);
+            }
+        };
+        xhr.onerror = function () {
+            console.error("Error de red al enviar la solicitud.");
+        };
+        xhr.send(JSON.stringify({ id:id }));
+        hideOverlay();
+}
+</script>
 {% endblock %}
